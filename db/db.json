@@ -1,1 +1,17 @@
-[]
+[
+    {
+        "title": "My First Note",
+        "text": "Thanks for seeing my first note!",
+        "id": "57b0"
+    },
+    {
+        "title": "Third Note",
+        "text": "Third",
+        "id": "4892"
+    },
+    {
+        "title": "Fourth Note",
+        "text": "Fourth",
+        "id": "d61d"
+    }
+]
