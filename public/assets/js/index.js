@@ -34,7 +34,8 @@ const getNotes = () =>
     headers: {
       'Content-Type': 'application/json'
     }
-  });
+  })
+      .then((res) => res);
 
 const saveNote = (note) =>
   fetch('/api/notes', {
@@ -42,8 +43,13 @@ const saveNote = (note) =>
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(note)
-  });
+    body: JSON.stringify(note),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log('Successful Post request:', data);
+      return data;
+    });
 
 const deleteNote = (id) =>
   fetch(`/api/notes/${id}`, {
@@ -57,13 +63,13 @@ const renderActiveNote = () => {
   hide(saveNoteBtn);
   hide(clearBtn);
 
-  if (activeNote.id) {
+  if (activeNote.title !== undefined) {
     show(newNoteBtn);
     noteTitle.setAttribute('readonly', true);
     noteText.setAttribute('readonly', true);
     noteTitle.value = activeNote.title;
     noteText.value = activeNote.text;
-  } else {
+  } else if (activeNote.title == undefined) {
     hide(newNoteBtn);
     noteTitle.removeAttribute('readonly');
     noteText.removeAttribute('readonly');
@@ -77,6 +83,7 @@ const handleNoteSave = () => {
     title: noteTitle.value,
     text: noteText.value
   };
+  console.log(newNote)
   saveNote(newNote).then(() => {
     getAndRenderNotes();
     renderActiveNote();
@@ -110,7 +117,9 @@ const handleNoteView = (e) => {
 
 // Sets the activeNote to and empty object and allows the user to enter a new note
 const handleNewNoteView = (e) => {
+e.preventDefault
   activeNote = {};
+  console.log(activeNote.title);
   show(clearBtn);
   renderActiveNote();
 };
@@ -130,8 +139,11 @@ const handleRenderBtns = () => {
 // Render the list of note titles
 const renderNoteList = async (notes) => {
   let jsonNotes = await notes.json();
+  console.log('rendering');
+  console.log(jsonNotes);
   if (window.location.pathname === '/notes') {
     noteList.forEach((el) => (el.innerHTML = ''));
+    console.log(`creating list`);
   }
 
   let noteListItems = [];
