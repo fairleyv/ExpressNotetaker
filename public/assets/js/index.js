@@ -47,7 +47,6 @@ const saveNote = (note) =>
   })
     .then((res) => res.json())
     .then((data) => {
-      console.log('Successful Post request:', data);
       return data;
     });
 
@@ -83,7 +82,6 @@ const handleNoteSave = () => {
     title: noteTitle.value,
     text: noteText.value
   };
-  console.log(newNote)
   saveNote(newNote).then(() => {
     getAndRenderNotes();
     renderActiveNote();
@@ -119,7 +117,6 @@ const handleNoteView = (e) => {
 const handleNewNoteView = (e) => {
 e.preventDefault
   activeNote = {};
-  console.log(activeNote.title);
   show(clearBtn);
   renderActiveNote();
 };
@@ -139,11 +136,8 @@ const handleRenderBtns = () => {
 // Render the list of note titles
 const renderNoteList = async (notes) => {
   let jsonNotes = await notes.json();
-  console.log('rendering');
-  console.log(jsonNotes);
   if (window.location.pathname === '/notes') {
     noteList.forEach((el) => (el.innerHTML = ''));
-    console.log(`creating list`);
   }
 
   let noteListItems = [];

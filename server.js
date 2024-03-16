@@ -75,7 +75,6 @@ app.post('/api/notes', (req, res) => {
   });
 
   app.delete('/api/notes/:note_id', (req, res) => {
-    console.log("DELETE Request Called for /api endpoint")
     fs.readFile('./db/db.json', 'utf8', (err, data) => {
       if (err) {
         console.error(err);
@@ -87,22 +86,23 @@ app.post('/api/notes', (req, res) => {
           const currentNote = parsedNotes[i];
           if (currentNote.id === noteId) {
             parsedNotes.splice(i,1);
-            return;
+            break;
           }
         }
-
-
+        
+        
         fs.writeFile(
           './db/db.json',
           JSON.stringify(parsedNotes, null, 4),
           (writeErr) =>
-            writeErr
-              ? console.error(writeErr)
-              : console.info('Successfully updated Notes!')
-        );
-      }
-    });
- })
+          writeErr
+          ? console.error(writeErr)
+          : console.info('Successfully updated Notes!')
+          );
+        }
+      });
+      res.send("Delete Request Called");
+ });
 
 app.use ((req, res) => {
     res.status(404).end();
